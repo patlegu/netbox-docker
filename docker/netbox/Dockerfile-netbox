@@ -12,19 +12,38 @@ RUN apk add --no-cache \
       libffi-dev \
       libxslt-dev \
       openldap-dev \
-      postgresql-dev
+      postgresql-dev \
+      ansible
 
 WORKDIR /install
 
 RUN pip install --prefix="/install" --no-warn-script-location \
 # gunicorn is used for launching netbox
+#      'gunicorn<20.0.0' \
       gunicorn \
       greenlet \
       eventlet \
 # napalm is used for gathering information from network devices
       napalm \
+# nornir is used to automate administration og equipement
+      nornir \
+# scapy is a tools that enables the user to send, sniff and dissect and forge network packets
+     scapy \
+# pexpect
+     pexpect \
+# Stormshiled python API
+     stormshield.sns.sslclient \
+# Fortigate python API
+     pyfortiapi \
+# pynetbox
+     pynetbox \
+# NetworkX
+     networkx \
+# nextbox-ui-plugin
+     nextbox-ui-plugin \		
 # ruamel is used in startup_scripts
-      'ruamel.yaml>=0.15,<0.16' \
+#      'ruamel.yaml>=0.15,<0.16' \
+      ruamel.yaml \
 # django_auth_ldap is required for ldap
       django_auth_ldap \
 # django-storages was introduced in 2.7 and is optional
@@ -60,10 +79,10 @@ COPY --from=builder /install /usr/local
 ARG NETBOX_PATH
 COPY ${NETBOX_PATH} /opt/netbox
 
-COPY docker/configuration.docker.py /opt/netbox/netbox/netbox/configuration.py
+COPY configuration.docker.py /opt/netbox/netbox/netbox/configuration.py
 COPY configuration/gunicorn_config.py /etc/netbox/config/
-COPY docker/nginx.conf /etc/netbox-nginx/nginx.conf
-COPY docker/docker-entrypoint.sh /opt/netbox/docker-entrypoint.sh
+COPY nginx.conf /etc/netbox-nginx/nginx.conf
+COPY docker-entrypoint.sh /opt/netbox/docker-entrypoint.sh
 COPY startup_scripts/ /opt/netbox/startup_scripts/
 COPY initializers/ /opt/netbox/initializers/
 COPY configuration/configuration.py /etc/netbox/config/configuration.py
@@ -76,7 +95,7 @@ WORKDIR /opt/netbox/netbox
 # Must set permissions for '/opt/netbox/netbox/media' directory
 # to g+w so that pictures can be uploaded to netbox.
 RUN mkdir static && chmod -R g+w static media
-
+											
 ENTRYPOINT [ "/opt/netbox/docker-entrypoint.sh" ]
 
 CMD ["gunicorn", "-c /etc/netbox/config/gunicorn_config.py", "netbox.wsgi"]
@@ -121,5 +140,5 @@ RUN apk add --no-cache \
       libldap \
       util-linux
 
-COPY docker/ldap_config.docker.py /opt/netbox/netbox/netbox/ldap_config.py
+COPY ldap_config.docker.py /opt/netbox/netbox/netbox/ldap_config.py
 COPY configuration/ldap_config.py /etc/netbox/config/ldap_config.py

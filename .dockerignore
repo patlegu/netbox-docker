@@ -8,3 +8,4 @@ docker-compose.override.yml
 .netbox/.git*
 .netbox/.travis.yml
 .netbox/scripts
+.tar.gz

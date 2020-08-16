@@ -150,10 +150,6 @@ LOGGING = {}
 # are permitted to access most data in NetBox (excluding secrets) but not make any changes.
 LOGIN_REQUIRED = os.environ.get('LOGIN_REQUIRED', 'False').lower() == 'true'
 
-# The length of time (in seconds) for which a user will remain logged into the web UI before being prompted to
-# re-authenticate. (Default: 1209600 [14 days])
-LOGIN_TIMEOUT = os.environ.get('LOGIN_TIMEOUT', None)
-
 # Setting this to True will display a "maintenance mode" banner at the top of every page.
 MAINTENANCE_MODE = os.environ.get('MAINTENANCE_MODE', 'False').lower() == 'true'
 
@@ -186,6 +182,56 @@ PAGINATE_COUNT = int(os.environ.get('PAGINATE_COUNT', 50))
 # When determining the primary IP address for a device, IPv6 is preferred over IPv4 by default. Set this to True to
 # prefer IPv4 instead.
 PREFER_IPV4 = os.environ.get('PREFER_IPV4', 'False').lower() == 'true'
+
+# Add plugins section.
+PLUGINS = [
+    'nextbox_ui_plugin',
+]
+
+#PLUGINS_CONFIG = {
+#    'nextbox_ui_plugin': {
+#        'layers_sort_order': (
+#            ADD YOUR SETTINGS HERE
+#            layer_sort_order is a tuple
+#        ),
+#        'icon_model_map': {
+#            ADD YOUR SETTINGS HERE
+#            icon_model_map is a dict
+#        },
+#        'icon_role_map': {
+#            ADD YOUR SETTINGS HERE
+#            icon_role_map is a dict
+#        }
+#        'undisplayed_device_role_slugs': (
+# #          ADD YOUR SETTINGS HERE
+#            undisplayed_device_role_slugs value is a list or a tuple
+#            Listed device role slugs are hidden on initial view load,
+#            you may then hide/display any layer with a control button.
+#        ),
+#        'undisplayed_device_tags': (
+#           ADD YOUR SETTINGS HERE
+#           undisplayed_device_tags value is a list or a tuple of regex strings.
+#           Devices with tags matching any of listed regular expressions are hidden
+#           on initial view load, you may then hide/display any layer with a control button.
+#        ),
+#        'select_layers_list_include_device_tags': (
+#           ADD YOUR SETTINGS HERE
+#           select_layers_list_include_device_tags value is a list or a tuple of regex strings.
+#           Use this parameter to control tags listed in Select Layers menu.
+#           If specified, it works as allow list.
+#        ),
+#        'select_layers_list_exclude_device_tags': (
+#           ADD YOUR SETTINGS HERE
+#           select_layers_list_exclude_device_tags value is a list or a tuple of regex strings.
+#           Use this parameter to control tags listed in Select Layers menu.
+#           If specified, it filters out matched tags from the list, except ones mathcing 'undisplayed_device_tags'.
+#        ),
+#        'DISPLAY_PASSIVE_DEVICES': True|False,
+#        'DISPLAY_LOGICAL_MULTICABLE_LINKS': True|False,
+#        'DISPLAY_UNCONNECTED': True|False,
+#        'INITIAL_LAYOUT': 'vertical'|'horizontal'|'auto'
+#    }
+#}
 
 # This determines how often the GitHub API is called to check the latest release of NetBox in seconds. Must be at least 1 hour.
 RELEASE_CHECK_TIMEOUT = os.environ.get('RELEASE_CHECK_TIMEOUT', 24 * 3600)
