@@ -9,3 +9,4 @@ docker-compose.override.yml
 .netbox/.travis.yml
 .netbox/scripts
 .tar.gz
+.sql
